@@ -84,11 +84,6 @@ html, body {
   overscroll-behavior: none;
 }
 
-/* Safe area para PWA en iOS (notch / Dynamic Island) */
-.page-header {
-  padding-top: max(var(--space-md), env(safe-area-inset-top));
-}
-
 a { color: inherit; text-decoration: none; }
 
 button {
