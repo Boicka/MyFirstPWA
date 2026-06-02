@@ -1,0 +1,139 @@
+<div class="page animate-page">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-brand">
+      <span class="material-icons-round header-icon">account_balance_wallet</span>
+      <h1 class="header-title">ControlGastos</h1>
+    </div>
+    <app-month-selector />
+  </header>
+
+  <div class="page-content">
+    <!-- Summary cards -->
+    <section class="summary-row">
+      <app-summary-card
+        label="Balance"
+        icon="account_balance_wallet"
+        variant="balance"
+        [amount]="txService.balance()"
+      />
+      <app-summary-card
+        label="Ingresos"
+        icon="arrow_upward"
+        variant="ingreso"
+        [amount]="txService.totalIngresos()"
+      />
+      <app-summary-card
+        label="Gastos"
+        icon="arrow_downward"
+        variant="gasto"
+        [amount]="txService.totalGastos()"
+      />
+    </section>
+
+    <!-- Cards carousel -->
+    @if (cardService.cardCount() > 0) {
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Mis tarjetas</h2>
+          <a class="section-link" routerLink="/tarjetas">Ver todas</a>
+        </div>
+        <div class="cards-carousel">
+          @for (card of cardService.cards(); track card.id; let i = $index) {
+            <div class="carousel-item">
+              <app-credit-card-visual [card]="card" [isActive]="i === 0" />
+            </div>
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="section">
+        <a class="add-card-cta" routerLink="/tarjetas/nueva">
+          <span class="material-icons-round">add_card</span>
+          <span>Agregar mi primera tarjeta</span>
+        </a>
+      </section>
+    }
+
+    <!-- Recent transactions -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Últimos movimientos</h2>
+        <a class="section-link" routerLink="/movimientos">Ver todos</a>
+      </div>
+
+      @if (recentTransactions.length === 0) {
+        <div class="empty-state">
+          <span class="material-icons-round empty-state__icon">receipt_long</span>
+          <p class="empty-state__text">Sin movimientos este mes</p>
+        </div>
+      } @else {
+        <ul class="tx-list">
+          @for (tx of recentTransactions; track tx.id; let i = $index) {
+            <li
+              class="tx-item"
+              [style.animation-delay]="(i * 60) + 'ms'"
+              [routerLink]="['/movimientos', tx.id, 'editar']"
+            >
+              <div
+                class="tx-icon"
+                [style.background]="'color-mix(in srgb,' + (getCategoryMeta(tx.category)?.color ?? '#94A3B8') + ' 18%, transparent)'"
+              >
+                <span
+                  class="material-icons-round"
+                  [style.color]="getCategoryMeta(tx.category)?.color"
+                >{{ getCategoryMeta(tx.category)?.icon }}</span>
+              </div>
+              <div class="tx-info">
+                <span class="tx-desc">{{ tx.description }}</span>
+                <span class="tx-meta">{{ getCardName(tx.cardId) }} · {{ tx.date }}</span>
+              </div>
+              <span
+                class="tx-amount"
+                [class.tx-amount--ingreso]="tx.type === 'ingreso'"
+                [class.tx-amount--gasto]="tx.type === 'gasto'"
+              >
+                {{ tx.type === 'ingreso' ? '+' : '-' }}{{ tx.amount | currencyFormat }}
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <!-- Category breakdown -->
+    @if (txService.categoryBreakdown().length > 0) {
+      <section class="section">
+        <h2 class="section-title">Gastos por categoría</h2>
+        <ul class="breakdown-list">
+          @for (item of txService.categoryBreakdown(); track item.category; let i = $index) {
+            <li class="breakdown-item" [style.animation-delay]="(i * 80) + 'ms'">
+              <span
+                class="material-icons-round breakdown-icon"
+                [style.color]="item.color"
+              >{{ item.icon }}</span>
+              <div class="breakdown-info">
+                <div class="breakdown-top">
+                  <span class="breakdown-label">{{ item.label }}</span>
+                  <span class="breakdown-amount">{{ item.total | currencyFormat }}</span>
+                </div>
+                <div class="breakdown-bar-track">
+                  <div
+                    class="breakdown-bar-fill"
+                    [style.width.%]="item.percentage"
+                    [style.background]="item.color"
+                  ></div>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    <div class="page-bottom-pad"></div>
+  </div>
+
+  <app-fab link="/movimientos/nuevo" />
+  <app-bottom-nav />
+</div>

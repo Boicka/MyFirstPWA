@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+.summary-card {
+  background: var(--clr-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  min-width: 140px;
+  box-shadow: var(--shadow-card);
+  animation: card-appear 0.5s var(--t-spring) both;
+  border: 1px solid var(--clr-border);
+  flex-shrink: 0;
+}
+
+.summary-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.summary-card__icon {
+  font-size: 1.25rem;
+}
+
+.summary-card__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--clr-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summary-card__amount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Variants */
+.summary-card--balance .summary-card__icon,
+.summary-card--balance .summary-card__amount {
+  color: var(--clr-primary);
+}
+
+.summary-card--ingreso .summary-card__icon,
+.summary-card--ingreso .summary-card__amount {
+  color: var(--clr-ingreso);
+}
+
+.summary-card--gasto .summary-card__icon,
+.summary-card--gasto .summary-card__amount {
+  color: var(--clr-gasto);
+}

@@ -1,0 +1,123 @@
+<div class="form-page animate-sheet">
+  <header class="form-header">
+    <button class="form-header__back" (click)="cancel()">
+      <span class="material-icons-round">arrow_back</span>
+    </button>
+    <h1 class="form-header__title">
+      {{ editId() ? 'Editar movimiento' : 'Nuevo movimiento' }}
+    </h1>
+    <div style="width: 2rem"></div>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-body">
+    <!-- Type toggle -->
+    <div class="type-toggle">
+      <div class="type-toggle__track">
+        <div
+          class="type-toggle__thumb"
+          [class.is-ingreso]="selectedType() === 'ingreso'"
+        ></div>
+        <button
+          type="button"
+          class="type-toggle__btn"
+          [class.active]="selectedType() === 'gasto'"
+          (click)="selectType('gasto')"
+        >
+          <span class="material-icons-round">arrow_downward</span>
+          Gasto
+        </button>
+        <button
+          type="button"
+          class="type-toggle__btn"
+          [class.active]="selectedType() === 'ingreso'"
+          (click)="selectType('ingreso')"
+        >
+          <span class="material-icons-round">arrow_upward</span>
+          Ingreso
+        </button>
+      </div>
+    </div>
+
+    <!-- Amount -->
+    <div class="amount-wrapper" [class.animate-shake]="shakeAmount()">
+      <span class="amount-prefix">$</span>
+      <input
+        class="amount-input"
+        type="number"
+        inputmode="decimal"
+        placeholder="0.00"
+        formControlName="amount"
+        step="0.01"
+      />
+    </div>
+
+    <!-- Description -->
+    <div class="field">
+      <label class="field__label">Descripción</label>
+      <input
+        class="field__input"
+        type="text"
+        placeholder="¿En qué gastaste?"
+        formControlName="description"
+      />
+    </div>
+
+    <!-- Categories -->
+    <div class="field">
+      <label class="field__label">Categoría</label>
+      <div class="chips-scroll">
+        @for (cat of filteredCategories; track cat.key) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--selected]="form.value.category === cat.key"
+            [style.--chip-color]="cat.color"
+            (click)="selectCategory(cat.key)"
+          >
+            <span class="material-icons-round">{{ cat.icon }}</span>
+            {{ cat.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Card picker -->
+    <div class="field">
+      <label class="field__label">Tarjeta</label>
+      <div class="card-picker">
+        <button
+          type="button"
+          class="card-picker__cash"
+          [class.card-picker__cash--selected]="form.value.cardId === null"
+          (click)="selectCard(null)"
+        >
+          <span class="material-icons-round">payments</span>
+          Efectivo
+        </button>
+        @for (card of cards(); track card.id) {
+          <div
+            class="card-picker__item"
+            [class.card-picker__item--selected]="form.value.cardId === card.id"
+            (click)="selectCard(card.id)"
+          >
+            <app-credit-card-visual [card]="card" [isActive]="form.value.cardId === card.id" />
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Date -->
+    <div class="field">
+      <label class="field__label">Fecha</label>
+      <input class="field__input" type="date" formControlName="date" />
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn btn--secondary" (click)="cancel()">Cancelar</button>
+      <button type="submit" class="btn btn--primary">
+        {{ editId() ? 'Guardar cambios' : 'Agregar' }}
+      </button>
+    </div>
+  </form>
+</div>

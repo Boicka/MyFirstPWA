@@ -1,0 +1,7 @@
+<div class="summary-card" [class]="'summary-card--' + variant()">
+  <div class="summary-card__header">
+    <span class="material-icons-round summary-card__icon">{{ icon() }}</span>
+    <span class="summary-card__label">{{ label() }}</span>
+  </div>
+  <div class="summary-card__amount">{{ amount() | currencyFormat }}</div>
+</div>

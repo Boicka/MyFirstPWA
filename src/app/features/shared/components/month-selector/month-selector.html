@@ -1,0 +1,9 @@
+<div class="month-selector">
+  <button class="month-btn" (click)="navigate(-1)" aria-label="Mes anterior">
+    <span class="material-icons-round">chevron_left</span>
+  </button>
+  <span class="month-label" [class]="slideClass()">{{ label() }}</span>
+  <button class="month-btn" (click)="navigate(1)" aria-label="Mes siguiente">
+    <span class="material-icons-round">chevron_right</span>
+  </button>
+</div>

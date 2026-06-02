@@ -1,0 +1,114 @@
+<div class="page animate-page">
+  <header class="page-header">
+    <h1 class="page-title">Tarjetas</h1>
+    <app-month-selector />
+  </header>
+
+  @if (cardService.cardCount() === 0) {
+    <div class="empty-state">
+      <span class="material-icons-round empty-state__icon">credit_card_off</span>
+      <p class="empty-state__text">No tienes tarjetas registradas</p>
+      <a class="empty-state__cta" routerLink="/tarjetas/nueva">Agregar tarjeta</a>
+    </div>
+  } @else {
+    <!-- Carousel -->
+    <div class="carousel" role="list">
+      @for (card of cardService.cards(); track card.id; let i = $index) {
+        <div
+          class="carousel__slide"
+          #cardSlide
+          [attr.data-card-id]="card.id"
+          role="listitem"
+        >
+          <app-credit-card-visual
+            [card]="card"
+            [isActive]="activeCardId() === card.id"
+          />
+        </div>
+      }
+    </div>
+
+    <!-- Dots -->
+    <div class="dots">
+      @for (card of cardService.cards(); track card.id) {
+        <div
+          class="dot"
+          [class.dot--active]="activeCardId() === card.id"
+        ></div>
+      }
+    </div>
+
+    <!-- Active card stats -->
+    @if (activeCardId()) {
+      <div class="card-stats animate-page">
+        <div class="card-stat">
+          <span class="material-icons-round card-stat__icon card-stat__icon--gasto">arrow_downward</span>
+          <div>
+            <span class="card-stat__label">Gastos del mes</span>
+            <span class="card-stat__value card-stat__value--gasto">{{ activeCardSpent() | currencyFormat }}</span>
+          </div>
+        </div>
+        <div class="card-stat">
+          <span class="material-icons-round card-stat__icon card-stat__icon--ingreso">arrow_upward</span>
+          <div>
+            <span class="card-stat__label">Ingresos del mes</span>
+            <span class="card-stat__value card-stat__value--ingreso">{{ activeCardIncome() | currencyFormat }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit card link -->
+      <div class="edit-card-row">
+        <a
+          class="edit-card-link"
+          [routerLink]="['/tarjetas', activeCardId(), 'editar']"
+        >
+          <span class="material-icons-round">edit</span>
+          Editar tarjeta
+        </a>
+      </div>
+
+      <!-- Card transactions -->
+      <div class="card-transactions">
+        <h2 class="section-title">Movimientos de la tarjeta</h2>
+        @if (activeCardTransactions().length === 0) {
+          <div class="empty-txs">
+            <span class="material-icons-round">receipt_long</span>
+            <span>Sin movimientos este mes</span>
+          </div>
+        } @else {
+          <ul class="tx-list">
+            @for (tx of activeCardTransactions(); track tx.id; let i = $index) {
+              <li class="tx-item" [style.animation-delay]="(i * 50) + 'ms'">
+                <div
+                  class="tx-icon"
+                  [style.background]="'color-mix(in srgb,' + (getCategoryMeta(tx.category)?.color ?? '#94A3B8') + ' 18%, transparent)'"
+                >
+                  <span
+                    class="material-icons-round"
+                    [style.color]="getCategoryMeta(tx.category)?.color"
+                  >{{ getCategoryMeta(tx.category)?.icon }}</span>
+                </div>
+                <div class="tx-info">
+                  <span class="tx-desc">{{ tx.description }}</span>
+                  <span class="tx-meta">{{ tx.date }}</span>
+                </div>
+                <span
+                  class="tx-amount"
+                  [class.tx-amount--ingreso]="tx.type === 'ingreso'"
+                  [class.tx-amount--gasto]="tx.type === 'gasto'"
+                >
+                  {{ tx.type === 'ingreso' ? '+' : '-' }}{{ tx.amount | currencyFormat }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  }
+
+  <div class="page-bottom-pad"></div>
+  <app-fab link="/tarjetas/nueva" icon="add_card" />
+  <app-bottom-nav />
+</div>

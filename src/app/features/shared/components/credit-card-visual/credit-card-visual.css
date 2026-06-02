@@ -1,0 +1,97 @@
+.card-visual {
+  aspect-ratio: 1.586;
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--card-color) 80%, #fff),
+    color-mix(in srgb, var(--card-color) 60%, #000)
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--card-color) 40%, transparent);
+  transform: scale(0.93);
+  transition: transform var(--t-slow), box-shadow var(--t-slow);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 80% 20%,
+    rgba(255, 255, 255, 0.25) 0%,
+    transparent 60%
+  );
+  border-radius: inherit;
+}
+
+.card-visual.is-active {
+  transform: scale(1);
+  box-shadow:
+    0 12px 40px color-mix(in srgb, var(--card-color) 60%, transparent),
+    0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.card-network {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.card-type {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+}
+
+.card-number {
+  display: flex;
+  gap: var(--space-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  align-self: center;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}
+
+.card-chip {
+  font-size: 1.5rem;
+  opacity: 0.85;
+}

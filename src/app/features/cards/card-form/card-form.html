@@ -1,0 +1,122 @@
+<div class="form-page animate-sheet">
+  <header class="form-header">
+    <button class="form-header__back" (click)="cancel()">
+      <span class="material-icons-round">arrow_back</span>
+    </button>
+    <h1 class="form-header__title">
+      {{ editId() ? 'Editar tarjeta' : 'Nueva tarjeta' }}
+    </h1>
+    @if (editId()) {
+      <button class="form-header__delete" (click)="confirmDelete()">
+        <span class="material-icons-round">delete_outline</span>
+      </button>
+    } @else {
+      <div style="width: 2rem"></div>
+    }
+  </header>
+
+  <!-- Live preview -->
+  <div class="card-preview">
+    <app-credit-card-visual [card]="previewCard" [isActive]="true" />
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-body">
+
+    <!-- Type toggle -->
+    <div class="type-toggle">
+      <button
+        type="button"
+        class="type-btn"
+        [class.type-btn--active]="form.value.type === 'credito'"
+        (click)="selectType('credito')"
+      >
+        <span class="material-icons-round">credit_card</span>
+        Crédito
+      </button>
+      <button
+        type="button"
+        class="type-btn"
+        [class.type-btn--active]="form.value.type === 'debito'"
+        (click)="selectType('debito')"
+      >
+        <span class="material-icons-round">account_balance_wallet</span>
+        Débito
+      </button>
+    </div>
+
+    <!-- Network -->
+    <div class="field">
+      <label class="field__label">Red</label>
+      <div class="chips-scroll">
+        @for (net of networks; track net) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--selected]="form.value.network === net"
+            (click)="form.patchValue({ network: net })"
+          >
+            {{ net | uppercase }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div class="field">
+      <label class="field__label">Nombre de la tarjeta</label>
+      <input
+        class="field__input"
+        type="text"
+        placeholder="ej. Nubank Black"
+        formControlName="name"
+      />
+    </div>
+
+    <!-- Last four -->
+    <div class="field">
+      <label class="field__label">Últimos 4 dígitos</label>
+      <input
+        class="field__input"
+        type="text"
+        inputmode="numeric"
+        maxlength="4"
+        placeholder="0000"
+        formControlName="lastFour"
+      />
+    </div>
+
+    <!-- Color -->
+    <div class="field">
+      <label class="field__label">Color</label>
+      <div class="color-picker">
+        @for (color of colors; track color) {
+          <button
+            type="button"
+            class="color-swatch"
+            [class.color-swatch--selected]="form.value.color === color"
+            [style.background]="color"
+            (click)="selectColor(color)"
+            [attr.aria-label]="'Color ' + color"
+          ></button>
+        }
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn btn--secondary" (click)="cancel()">Cancelar</button>
+      <button type="submit" class="btn btn--primary">
+        {{ editId() ? 'Guardar' : 'Agregar tarjeta' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+@if (showDeleteConfirm()) {
+  <app-confirm-dialog
+    message="¿Eliminar esta tarjeta? Se perderá el historial asociado."
+    confirmLabel="Eliminar"
+    (confirmed)="doDelete()"
+    (cancelled)="showDeleteConfirm.set(false)"
+  />
+}

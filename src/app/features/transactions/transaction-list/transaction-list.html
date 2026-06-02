@@ -1,0 +1,104 @@
+<div class="page animate-page">
+  <header class="page-header">
+    <h1 class="page-title">Movimientos</h1>
+    <app-month-selector />
+  </header>
+
+  <!-- Filter chips -->
+  <div class="filter-bar">
+    <button
+      class="filter-chip"
+      [class.filter-chip--active]="filter() === 'todos'"
+      (click)="setFilter('todos')"
+    >Todos</button>
+    <button
+      class="filter-chip filter-chip--gasto"
+      [class.filter-chip--active]="filter() === 'gasto'"
+      (click)="setFilter('gasto')"
+    >
+      <span class="material-icons-round">arrow_downward</span>
+      Gastos
+    </button>
+    <button
+      class="filter-chip filter-chip--ingreso"
+      [class.filter-chip--active]="filter() === 'ingreso'"
+      (click)="setFilter('ingreso')"
+    >
+      <span class="material-icons-round">arrow_upward</span>
+      Ingresos
+    </button>
+  </div>
+
+  <!-- Transactions -->
+  <div class="tx-container">
+    @if (displayedTransactions().length === 0) {
+      <div class="empty-state">
+        <span class="material-icons-round empty-state__icon">receipt_long</span>
+        <p class="empty-state__text">Sin movimientos este mes</p>
+        <a class="empty-state__cta" routerLink="/movimientos/nuevo">Agregar uno</a>
+      </div>
+    } @else {
+      <ul class="tx-list">
+        @for (tx of displayedTransactions(); track tx.id; let i = $index) {
+          <li
+            class="tx-item"
+            [class.tx-item--removing]="removingId() === tx.id"
+            [style.animation-delay]="(i * 50) + 'ms'"
+          >
+            <div
+              class="tx-icon"
+              [style.background]="'color-mix(in srgb,' + (getCategoryMeta(tx.category)?.color ?? '#94A3B8') + ' 18%, transparent)'"
+            >
+              <span
+                class="material-icons-round"
+                [style.color]="getCategoryMeta(tx.category)?.color"
+              >{{ getCategoryMeta(tx.category)?.icon }}</span>
+            </div>
+            <div class="tx-info">
+              <span class="tx-desc">{{ tx.description }}</span>
+              <span class="tx-meta">{{ getCardName(tx.cardId) }} · {{ tx.date }}</span>
+            </div>
+            <div class="tx-right">
+              <span
+                class="tx-amount"
+                [class.tx-amount--ingreso]="tx.type === 'ingreso'"
+                [class.tx-amount--gasto]="tx.type === 'gasto'"
+              >
+                {{ tx.type === 'ingreso' ? '+' : '-' }}{{ tx.amount | currencyFormat }}
+              </span>
+              <div class="tx-actions">
+                <a
+                  class="tx-action-btn"
+                  [routerLink]="['/movimientos', tx.id, 'editar']"
+                  aria-label="Editar"
+                >
+                  <span class="material-icons-round">edit</span>
+                </a>
+                <button
+                  class="tx-action-btn tx-action-btn--delete"
+                  (click)="requestDelete(tx.id)"
+                  aria-label="Eliminar"
+                >
+                  <span class="material-icons-round">delete_outline</span>
+                </button>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="page-bottom-pad"></div>
+  <app-fab link="/movimientos/nuevo" />
+  <app-bottom-nav />
+</div>
+
+@if (deletingId()) {
+  <app-confirm-dialog
+    message="¿Eliminar este movimiento?"
+    confirmLabel="Eliminar"
+    (confirmed)="confirmDelete()"
+    (cancelled)="cancelDelete()"
+  />
+}

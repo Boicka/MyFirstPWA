@@ -1,0 +1,209 @@
+.page {
+  min-height: 100dvh;
+  background: var(--clr-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.page-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--clr-text-2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--t-base), color var(--t-base), border-color var(--t-base);
+}
+
+.filter-chip .material-icons-round { font-size: 0.9rem; }
+
+.filter-chip--active {
+  background: color-mix(in srgb, var(--clr-primary) 15%, transparent);
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+}
+
+.filter-chip--gasto.filter-chip--active {
+  background: color-mix(in srgb, var(--clr-gasto) 15%, transparent);
+  border-color: var(--clr-gasto);
+  color: var(--clr-gasto);
+}
+
+.filter-chip--ingreso.filter-chip--active {
+  background: color-mix(in srgb, var(--clr-ingreso) 15%, transparent);
+  border-color: var(--clr-ingreso);
+  color: var(--clr-ingreso);
+}
+
+/* Transaction container */
+.tx-container {
+  flex: 1;
+  padding: var(--space-lg);
+}
+
+.tx-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--clr-surface);
+  border-radius: var(--radius-lg);
+  animation: fade-slide-in 0.3s ease both;
+  transition: background var(--t-fast);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--clr-border);
+  overflow: hidden;
+}
+
+.tx-item--removing {
+  animation: slide-out-left 0.28s ease forwards;
+}
+
+.tx-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+
+.tx-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tx-desc {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tx-meta {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--clr-text-2);
+  margin-top: 2px;
+}
+
+.tx-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.tx-amount {
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tx-amount--ingreso { color: var(--clr-ingreso); }
+.tx-amount--gasto   { color: var(--clr-gasto); }
+
+.tx-actions {
+  display: flex;
+  gap: var(--space-xs);
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+
+.tx-item:hover .tx-actions {
+  opacity: 1;
+}
+
+.tx-action-btn {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  color: var(--clr-text-2);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.tx-action-btn:hover { background: var(--clr-surface-2); }
+.tx-action-btn--delete:hover { color: var(--clr-gasto); }
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--space-lg);
+  color: var(--clr-text-2);
+}
+
+.empty-state__icon {
+  font-size: 3.5rem;
+  animation: empty-float 2s ease-in-out infinite alternate;
+  color: var(--clr-primary-light);
+}
+
+.empty-state__text { font-size: 0.95rem; }
+
+.empty-state__cta {
+  padding: var(--space-sm) var(--space-lg);
+  background: color-mix(in srgb, var(--clr-primary) 15%, transparent);
+  color: var(--clr-primary);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.page-bottom-pad {
+  height: calc(var(--nav-height) + var(--space-2xl) + var(--space-xl));
+}

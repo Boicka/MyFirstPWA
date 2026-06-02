@@ -1,7 +1,11 @@
 {
-  "name": "pwa-app",
-  "short_name": "pwa-app",
+  "name": "ControlGastos",
+  "short_name": "Gastos",
+  "description": "Registra gastos e ingresos de tus tarjetas",
+  "theme_color": "#6C63FF",
+  "background_color": "#0F0F1A",
   "display": "standalone",
+  "orientation": "portrait",
   "scope": "./",
   "start_url": "./",
   "icons": [

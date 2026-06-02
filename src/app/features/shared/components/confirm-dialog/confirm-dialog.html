@@ -1,0 +1,10 @@
+<div class="backdrop" [class.closing]="closing()" (click)="onCancel()"></div>
+<div class="dialog" [class.closing]="closing()" role="dialog" aria-modal="true">
+  <p class="dialog__message">{{ message() }}</p>
+  <div class="dialog__actions">
+    <button class="dialog__btn dialog__btn--cancel" (click)="onCancel()">Cancelar</button>
+    <button class="dialog__btn dialog__btn--confirm" (click)="onConfirm()">
+      {{ confirmLabel() }}
+    </button>
+  </div>
+</div>

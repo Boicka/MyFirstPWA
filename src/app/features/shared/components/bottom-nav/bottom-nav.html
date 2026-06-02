@@ -1,0 +1,12 @@
+<nav class="bottom-nav">
+  @for (tab of tabs; track tab.path) {
+    <a
+      class="bottom-nav__tab"
+      [routerLink]="tab.path"
+      routerLinkActive="bottom-nav__tab--active"
+    >
+      <span class="material-icons-round bottom-nav__icon">{{ tab.icon }}</span>
+      <span class="bottom-nav__label">{{ tab.label }}</span>
+    </a>
+  }
+</nav>

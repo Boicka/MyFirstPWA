@@ -1,0 +1,20 @@
+<div
+  class="card-visual"
+  [class.is-active]="isActive()"
+  [style.--card-color]="card().color"
+>
+  <div class="card-top">
+    <span class="card-network">{{ card().network | uppercase }}</span>
+    <span class="card-type">{{ card().type }}</span>
+  </div>
+  <div class="card-number">
+    <span>••••</span>
+    <span>••••</span>
+    <span>••••</span>
+    <span>{{ card().lastFour }}</span>
+  </div>
+  <div class="card-bottom">
+    <span class="card-name">{{ card().name }}</span>
+    <span class="material-icons-round card-chip">contactless</span>
+  </div>
+</div>

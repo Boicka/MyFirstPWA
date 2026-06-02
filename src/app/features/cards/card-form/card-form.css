@@ -1,0 +1,193 @@
+.form-page {
+  min-height: 100dvh;
+  background: var(--clr-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.form-header__back,
+.form-header__delete {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: 1.25rem;
+  transition: background var(--t-fast);
+}
+
+.form-header__back { color: var(--clr-text-2); }
+.form-header__back:hover { background: var(--clr-surface-2); }
+
+.form-header__delete { color: var(--clr-gasto); }
+.form-header__delete:hover { background: color-mix(in srgb, var(--clr-gasto) 12%, transparent); }
+
+.form-header__title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-preview {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+  background: linear-gradient(180deg, var(--clr-surface) 0%, var(--clr-bg) 100%);
+}
+
+.card-preview app-credit-card-visual {
+  max-width: 280px;
+  width: 100%;
+}
+
+.form-body {
+  flex: 1;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.type-toggle {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--clr-border);
+  background: var(--clr-surface);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--clr-text-2);
+  transition: border-color var(--t-base), color var(--t-base), background var(--t-base);
+}
+
+.type-btn--active {
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+  background: color-mix(in srgb, var(--clr-primary) 10%, transparent);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.field__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.field__input {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  outline: none;
+  transition: border-color var(--t-base);
+}
+
+.field__input:focus {
+  border-color: var(--clr-primary);
+}
+
+.chips-scroll {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chips-scroll::-webkit-scrollbar { display: none; }
+
+.chip {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  transition: transform var(--t-fast), background var(--t-base), border-color var(--t-base), color var(--t-base);
+  flex-shrink: 0;
+}
+
+.chip--selected {
+  background: color-mix(in srgb, var(--clr-primary) 15%, transparent);
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+  transform: scale(1.05);
+}
+
+.color-picker {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  border: 3px solid transparent;
+  transition: transform var(--t-spring) var(--t-base), outline var(--t-fast);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.color-swatch--selected {
+  transform: scale(1.25);
+  outline-color: var(--clr-primary);
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-md);
+  margin-top: auto;
+  padding-bottom: var(--space-xl);
+}
+
+.btn {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+.btn:active { transform: scale(0.97); }
+.btn:hover { opacity: 0.9; }
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dark));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.35);
+}
+
+.btn--secondary {
+  background: var(--clr-surface-2);
+  color: var(--clr-text-2);
+}
